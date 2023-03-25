@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "antd";
 
 import TextArea from "antd/es/input/TextArea";
-import { changeTodo, Todo } from "../store/todoSlice";
+import { changeTodo } from "../store/todoSlice";
 import { useAppDispatch, useAppSelector } from "../hook";
 
 interface ChangeTaskProps {
@@ -18,16 +18,23 @@ const ChangeTask: React.FC<ChangeTaskProps> = ({
   const todo = useAppSelector((state) => state.todos.todo);
   const [title, setTitle] = useState<string>(todo.title);
   const [text, setText] = useState<string>(todo.text);
+  const currentTitle = title || todo.title;
+  const currentText = text || todo.text;
 
   const onCancelModal = () => {
     setIsModalOpen(false);
-    setText(todo.text);
-    setTitle(todo.title);
+    setText("");
+    setTitle("");
   };
 
   const onOkModal = () => {
-    dispatch(changeTodo({ title, text, id: todo.id }));
+    console.log(title, text);
+    dispatch(
+      changeTodo({ title: currentTitle, text: currentText, id: todo.id })
+    );
     setIsModalOpen(false);
+    setText("");
+    setTitle("");
   };
   debugger;
   return (
@@ -40,13 +47,13 @@ const ChangeTask: React.FC<ChangeTaskProps> = ({
       >
         <TextArea
           autoSize
-          value={title}
+          value={currentTitle}
           onChange={(e) => setTitle(e.target.value)}
         />
         <div style={{ margin: "24px 0" }} />
         <TextArea
           autoSize={{ minRows: 2, maxRows: 6 }}
-          value={text}
+          value={currentText}
           onChange={(e) => setText(e.target.value)}
         />
         <div style={{ margin: "24px 0" }} />

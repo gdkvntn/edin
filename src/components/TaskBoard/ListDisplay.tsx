@@ -1,21 +1,27 @@
 import { CloseCircleOutlined, EditOutlined } from "@ant-design/icons";
 import { Button, Checkbox, List } from "antd";
 import { useAppDispatch } from "../../hook";
-import { removeTodo, Todo, toggleComplete } from "../../store/todoSlice";
-import ChangeTask from "../ChangeTask";
-import { useState } from "react";
+import {
+  addChangeTodo,
+  removeTodo,
+  Todo,
+  toggleComplete,
+} from "../../store/todoSlice";
 
 interface ListDisplayProps {
   todos: Todo[];
+  setChangeModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ListDisplay: React.FC<ListDisplayProps> = ({ todos }) => {
-  const [changeModalOpen, setChangeModalOpen] = useState<boolean>(false);
+const ListDisplay: React.FC<ListDisplayProps> = ({
+  todos,
+  setChangeModalOpen,
+}) => {
   const dispatch = useAppDispatch();
 
-  const openChangeModal = (id: number) => {
+  const openChangeModal = (todo: Todo) => {
     setChangeModalOpen(true);
-    console.log(id);
+    dispatch(addChangeTodo(todo));
   };
 
   return (
@@ -37,7 +43,7 @@ const ListDisplay: React.FC<ListDisplayProps> = ({ todos }) => {
                   checked={todo.completed}
                   onChange={() => dispatch(toggleComplete(todo.id))}
                 />,
-                <Button onClick={() => openChangeModal(todo.id)}>
+                <Button onClick={() => openChangeModal(todo)}>
                   <EditOutlined key="edit" />
                 </Button>,
                 <Button>

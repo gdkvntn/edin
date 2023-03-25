@@ -19,7 +19,7 @@ const GridDisplay: React.FC<GridDisplayProps> = ({
   setChangeModalOpen,
 }) => {
   const dispatch = useAppDispatch();
-  debugger;
+
   const openChangeModal = (todo: Todo) => {
     dispatch(addChangeTodo(todo));
     setChangeModalOpen(true);

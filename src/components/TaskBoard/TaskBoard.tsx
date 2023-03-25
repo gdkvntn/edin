@@ -38,7 +38,10 @@ const TaskBoard: React.FC = () => {
               setChangeModalOpen={setChangeModalOpen}
             />
           ) : (
-            <ListDisplay todos={todos} />
+            <ListDisplay
+              todos={todos}
+              setChangeModalOpen={setChangeModalOpen}
+            />
           )}
         </>
       ) : (
